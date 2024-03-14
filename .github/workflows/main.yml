@@ -54,6 +54,11 @@ jobs:
         run: |
               AWS_PASSWORD=$(aws ecr get-login-password)
               echo "$AWS_PASSWORD" | docker login --username AWS --password-stdin ${{ secrets.AWS_ECR_LOGIN_URL }}
+      - name: Debug ECR variables
+        run: |
+          echo "ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}"
+          echo "ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}"
+          echo "IMAGE_TAG: latest"
 
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
